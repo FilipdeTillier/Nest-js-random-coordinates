@@ -7,10 +7,6 @@ export class PinGateway {
 
   @WebSocketServer() server: Server;
 
-  handleConnection(): void {
-    this.server.emit('message', "hehehe");
-  }
-
   coordinationsUpdate(coordinates: Pin[]): void {
     this.server.emit('update', coordinates);
   }
