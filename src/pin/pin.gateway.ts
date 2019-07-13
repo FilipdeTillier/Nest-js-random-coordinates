@@ -9,9 +9,8 @@ export class PinGateway implements OnGatewayConnection {
     this.server.emit('message', "hehehe");
   }
 
-  @SubscribeMessage('coordinations update')
-  async coordinationsUpdate(coordinates, message) {
-
+  async coordinationsUpdate(coordinates) {
+    this.server.emit('update', coordinates);
   }
 
 }

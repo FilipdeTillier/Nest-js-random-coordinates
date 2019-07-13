@@ -1,14 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import Pin from './pin.model';
+import { PinGateway } from './pin.gateway';
 
 @Injectable()
 export class PinService {
   public pins: Pin[] = [];
-  constructor() {
-    for (let i = 1; i <= 5; i++) {
-      this.pins.push(new Pin(10 * i, 10 * 1));
-    }
+  private initCoordinates = [
+    { latitude: 54.386145, longitude: 18.592970 },
+    { latitude: 54.392145, longitude: 18.642970 },
+    { latitude: 54.296145, longitude: 18.502970 },
+    { latitude: 54.316145, longitude: 18.552970 },
+    { latitude: 54.356145, longitude: 18.532970 }
+  ]
+  constructor(private pinGateway: PinGateway) {
+    this.initCoordinates.forEach(({ latitude, longitude }) => {
+      this.pins.push(new Pin(latitude, longitude));
+    });
     this.setCoordinationsInterval(1000);
   }
 
@@ -17,7 +25,7 @@ export class PinService {
   }
 
   get generateRandomNumber(): number {
-    return Math.random() < 0.5 ? 1 - 0.001 : 1 * 1.001;
+    return Math.random() < 0.5 ? 1 - 0.00001 : 1 * 1.00001;
   }
 
   private setCoordinationsInterval(timeInterval: number) {
@@ -28,6 +36,7 @@ export class PinService {
         pin.updatePosition(+newLatitude.toFixed(5), +newLongtitude.toFixed(5));
         return pin;
       });
+      this.pinGateway.coordinationsUpdate(this.pins);
     }, timeInterval);
   }
 }
