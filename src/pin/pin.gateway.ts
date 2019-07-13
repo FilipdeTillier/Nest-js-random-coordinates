@@ -1,15 +1,17 @@
-import { SubscribeMessage, WebSocketGateway, OnGatewayConnection, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server } from 'https';
+import Pin from './pin.model';
 
 @WebSocketGateway()
-export class PinGateway implements OnGatewayConnection {
+export class PinGateway {
 
-  @WebSocketServer() server;
+  @WebSocketServer() server: Server;
 
-  async handleConnection() {
+  handleConnection(): void {
     this.server.emit('message', "hehehe");
   }
 
-  async coordinationsUpdate(coordinates) {
+  coordinationsUpdate(coordinates: Pin[]): void {
     this.server.emit('update', coordinates);
   }
 
