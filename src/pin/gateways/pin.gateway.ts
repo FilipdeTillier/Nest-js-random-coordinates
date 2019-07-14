@@ -5,7 +5,7 @@ import Pin from '../models/pin.model';
 @WebSocketGateway()
 export class PinGateway {
 
-  @WebSocketServer() server;
+  @WebSocketServer() server: Server;
 
   public coordinationsUpdate(coordinates: Pin[]): void {
     this.server.emit('update', coordinates);
