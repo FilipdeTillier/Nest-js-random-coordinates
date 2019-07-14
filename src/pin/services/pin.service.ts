@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import Pin from './pin.model';
-import { PinGateway } from './pin.gateway';
+import Pin from '../models/pin.model';
+import { PinGateway } from '../gateways/pin.gateway';
 
 @Injectable()
 export class PinService {
@@ -21,11 +21,11 @@ export class PinService {
     this.setCoordinationsInterval(1000);
   }
 
-  get getAllPins(): Pin[] {
+  public getAllPins(): Pin[] {
     return this.pins;
   }
 
-  get generateRandomNumber(): number {
+  private get generateRandomNumber(): number {
     return Math.random() < 0.5 ? 1 - 0.00001 : 1 * 1.00001;
   }
 
@@ -34,7 +34,8 @@ export class PinService {
       this.pins.map((pin): Pin => {
         const newLongtitude = pin.longitude * this.generateRandomNumber;
         const newLatitude = pin.latitude * this.generateRandomNumber;
-        pin.updatePosition(+newLatitude.toFixed(5), +newLongtitude.toFixed(5));
+        pin.latitude = +newLatitude.toFixed(5);
+        pin.longitude = +newLongtitude.toFixed(5);
         return pin;
       });
       this.pinGateway.coordinationsUpdate(this.pins);

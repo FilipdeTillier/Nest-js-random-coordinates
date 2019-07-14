@@ -1,15 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { PinService } from './pin.service';
-import Pin from './pin.model';
+import { PinService } from '../services/pin.service';
+import Pin from '../models/pin.model';
 
-@Controller('pin')
+@Controller('pins')
 export class PinController {
   constructor(private pinService: PinService) { }
 
   @Get()
   getAllPins(): Pin[] {
-    return this.pinService.getAllPins;
+    return this.pinService.getAllPins();
   }
 
 }

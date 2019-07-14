@@ -1,13 +1,13 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'https';
-import Pin from './pin.model';
+import Pin from '../models/pin.model';
 
 @WebSocketGateway()
 export class PinGateway {
 
-  @WebSocketServer() server: Server;
+  @WebSocketServer() server;
 
-  coordinationsUpdate(coordinates: Pin[]): void {
+  public coordinationsUpdate(coordinates: Pin[]): void {
     this.server.emit('update', coordinates);
   }
 
